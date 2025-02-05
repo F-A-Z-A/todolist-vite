@@ -1,0 +1,9 @@
+.app {
+  padding: 30px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.app > div {
+  margin-right: 50px;
+}
