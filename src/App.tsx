@@ -1,50 +1,56 @@
 import './App.css'
-import {TodolistItem} from "./TodolistItem.tsx";
-import {useState} from "react";
+import {useState} from 'react'
+import {TodolistItem} from './TodolistItem'
+import {v1} from "uuid";
+
+export type Task = {
+	id: string
+	title: string
+	isDone: boolean
+}
+
+export type FilterValues = 'all' | 'active' | 'completed'
 
 export const App = () => {
-	const [tasks, setTasks] = useState<Task[]>([
-		{id: 1, title: 'HTML&CSS', isDone: true},
-		{id: 2, title: 'JS', isDone: true},
-		{id: 3, title: 'ReactJS', isDone: false},
-		{id: 4, title: 'Redux', isDone: false},
-		{id: 5, title: 'Typescript', isDone: false},
-		{id: 6, title: 'RTK query', isDone: false},
-	])
-	
 	const [filter, setFilter] = useState<FilterValues>('all')
 	
-	const deleteTask = (id: number) => {
-		setTasks(tasks.filter(t => t.id !== id))
+	const [tasks, setTasks] = useState<Task[]>([
+		{id: v1(), title: 'HTML&CSS', isDone: true},
+		{id: v1(), title: 'JS', isDone: true},
+		{id: v1(), title: 'ReactJS', isDone: false},
+	])
+	
+	const deleteTask = (taskId: string) => {
+		const filteredTasks = tasks.filter(task => {
+			return task.id !== taskId
+		})
+		setTasks(filteredTasks)
 	}
 	
 	const changeFilter = (filter: FilterValues) => {
 		setFilter(filter)
 	}
 	
-	const getTasks = () => {
-		let filteredTasks = tasks
-		if (filter === 'active') {
-			filteredTasks = tasks.filter(task => !task.isDone)
-		}
-		if (filter === 'completed') {
-			filteredTasks = tasks.filter(task => task.isDone)
-		}
-		return filteredTasks
+	let filteredTasks = tasks
+	if (filter === 'active') {
+		filteredTasks = tasks.filter(task => !task.isDone)
+	}
+	if (filter === 'completed') {
+		filteredTasks = tasks.filter(task => task.isDone)
+	}
+	
+	const createTask = (title: string) => {
+		setTasks([{id: v1(), title, isDone: false}, ...tasks])
 	}
 	
 	return (
 		<div className="app">
-			<TodolistItem
-				title="What to learn"
-				tasks={getTasks()}
-				deleteTask={deleteTask}
-				changeFilter={changeFilter}
+			<TodolistItem title="What to learn"
+			              tasks={filteredTasks}
+			              deleteTask={deleteTask}
+			              changeFilter={changeFilter}
+			              createTask={createTask}
 			/>
 		</div>
 	)
 }
-
-// types
-export type Task = { id: number; title: string; isDone: boolean }
-export type FilterValues = 'all' | 'active' | 'completed'
