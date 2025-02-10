@@ -2,11 +2,15 @@
   padding: 30px;
   display: flex;
   flex-wrap: wrap;
-  gap: 50px;
 }
 
 .app > div {
   margin-right: 50px;
+}
+
+.container {
+  display: flex;
+  align-items: center;
 }
 
 .error {
@@ -23,9 +27,4 @@
 
 .is-done {
   opacity: 0.5;
-}
-
-.container {
-  display: flex;
-  align-items: center;
 }
