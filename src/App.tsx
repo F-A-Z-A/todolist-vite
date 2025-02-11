@@ -1,26 +1,31 @@
 import "./App.css";
 import { useState } from "react";
 import { v1 } from "uuid";
+import { CreateItemForm } from "./CreateItemForm";
 import { TodolistItem } from "./TodolistItem";
-import { CreateItemForm } from "./CreateItemForm.tsx";
-
-export type Todolist = {
-  id: string;
-  title: string;
-  filter: FilterValues;
-};
-
-export type Task = {
-  id: string;
-  title: string;
-  isDone: boolean;
-};
-
-export type FilterValues = "all" | "active" | "completed";
-
-export type TasksState = Record<string, Task[]>;
+import AppBar from "@mui/material/AppBar/AppBar";
+import Toolbar from "@mui/material/Toolbar/Toolbar";
+import IconButton from "@mui/material/IconButton/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container/Container";
+import Grid from "@mui/material/Grid2";
+import Paper from "@mui/material/Paper";
+import { containerSx } from "./TodolistItem.styles.ts";
+import { NavButton } from "./NavButton.ts";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Switch from "@mui/material/Switch";
 
 export const App = () => {
+  const [themeMode, setThemeMode] = useState<ThemeMode>("light");
+  const theme = createTheme({
+    palette: {
+      mode: themeMode,
+      primary: {
+        main: "#087EA4",
+      },
+    },
+  });
   const todolistId1 = v1();
   const todolistId2 = v1();
 
@@ -45,10 +50,21 @@ export const App = () => {
     setTodolists(todolists.map((todolist) => (todolist.id === todolistId ? { ...todolist, filter } : todolist)));
   };
 
+  const createTodolist = (title: string) => {
+    const todolistId = v1();
+    const newTodolist: Todolist = { id: todolistId, title, filter: "all" };
+    setTodolists([newTodolist, ...todolists]);
+    setTasks({ ...tasks, [todolistId]: [] });
+  };
+
   const deleteTodolist = (todolistId: string) => {
     setTodolists(todolists.filter((todolist) => todolist.id !== todolistId));
     delete tasks[todolistId];
     setTasks({ ...tasks });
+  };
+
+  const changeTodolistTitle = (todolistId: string, title: string) => {
+    setTodolists(todolists.map((todolist) => (todolist.id === todolistId ? { ...todolist, title } : todolist)));
   };
 
   const deleteTask = (todolistId: string, taskId: string) => {
@@ -70,49 +86,88 @@ export const App = () => {
   const changeTaskTitle = (todolistId: string, taskId: string, title: string) => {
     setTasks({
       ...tasks,
-      [todolistId]: tasks[todolistId].map((task) => (task.id == taskId ? { ...task, title } : task)),
+      [todolistId]: tasks[todolistId].map((task) => (task.id === taskId ? { ...task, title } : task)),
     });
   };
 
-  const createTodolist = (title: string) => {
-    const newTodolistId = v1();
-    const newTodolist: Todolist = { id: newTodolistId, title, filter: "all" };
-    setTodolists([newTodolist, ...todolists]);
-    setTasks({ [newTodolistId]: [], ...tasks });
-  };
-
-  const changeTodolistTitle = (todolistId: string, title: string) => {
-    setTodolists(todolists.map((tl) => (tl.id === todolistId ? { ...tl, title } : tl)));
+  const changeMode = () => {
+    setThemeMode(themeMode === "light" ? "dark" : "light");
   };
 
   return (
-    <div className="app">
-      <CreateItemForm onCreateItem={createTodolist} />
-      {todolists.map((todolist) => {
-        const todolistTasks = tasks[todolist.id];
-        let filteredTasks = todolistTasks;
-        if (todolist.filter === "active") {
-          filteredTasks = todolistTasks.filter((task) => !task.isDone);
-        }
-        if (todolist.filter === "completed") {
-          filteredTasks = todolistTasks.filter((task) => task.isDone);
-        }
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <AppBar position="static" sx={{ mb: "30px" }}>
+        <Toolbar>
+          <Container maxWidth={"lg"} sx={containerSx}>
+            <IconButton color="inherit">
+              <MenuIcon />
+            </IconButton>
+            <div>
+              <NavButton> Sign in </NavButton>
+              <NavButton>Sign up</NavButton>
+              <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
+            </div>
+            <Switch onClick={changeMode} />
+          </Container>
+        </Toolbar>
+      </AppBar>
+      <Container>
+        <Grid container sx={{ mb: "30px" }}>
+          <Paper sx={{ p: "20px" }}>
+            <CreateItemForm onCreateItem={createTodolist} />
+          </Paper>
+        </Grid>
+        <Grid container spacing={4}>
+          {todolists.map((todolist) => {
+            const todolistTasks = tasks[todolist.id];
+            let filteredTasks = todolistTasks;
+            if (todolist.filter === "active") {
+              filteredTasks = todolistTasks.filter((task) => !task.isDone);
+            }
+            if (todolist.filter === "completed") {
+              filteredTasks = todolistTasks.filter((task) => task.isDone);
+            }
 
-        return (
-          <TodolistItem
-            key={todolist.id}
-            todolist={todolist}
-            tasks={filteredTasks}
-            deleteTask={deleteTask}
-            changeFilter={changeFilter}
-            createTask={createTask}
-            changeTaskStatus={changeTaskStatus}
-            deleteTodolist={deleteTodolist}
-            changeTaskTitle={changeTaskTitle}
-            changeTodolistTitle={changeTodolistTitle}
-          />
-        );
-      })}
-    </div>
+            return (
+              <Grid key={todolist.id}>
+                <Paper elevation={3} sx={{ p: "0 20px 20px 20px" }}>
+                  <TodolistItem
+                    todolist={todolist}
+                    tasks={filteredTasks}
+                    deleteTask={deleteTask}
+                    changeFilter={changeFilter}
+                    createTask={createTask}
+                    changeTaskStatus={changeTaskStatus}
+                    deleteTodolist={deleteTodolist}
+                    changeTaskTitle={changeTaskTitle}
+                    changeTodolistTitle={changeTodolistTitle}
+                  />
+                </Paper>
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Container>
+    </ThemeProvider>
   );
 };
+
+// types
+export type Todolist = {
+  id: string;
+  title: string;
+  filter: FilterValues;
+};
+
+export type Task = {
+  id: string;
+  title: string;
+  isDone: boolean;
+};
+
+export type FilterValues = "all" | "active" | "completed";
+
+export type TasksState = Record<string, Task[]>;
+
+type ThemeMode = "dark" | "light";

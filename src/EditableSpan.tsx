@@ -1,32 +1,39 @@
-// @flow
-import * as React from "react";
 import { type ChangeEvent, useState } from "react";
+import TextField from "@mui/material/TextField/TextField";
 
 type Props = {
   value: string;
   onChange: (title: string) => void;
 };
+
 export const EditableSpan = ({ value, onChange }: Props) => {
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>(value);
+  const [title, setTitle] = useState(value);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const turnOnEditMode = () => {
     setIsEditMode(true);
   };
 
   const turnOffEditMode = () => {
-    onChange(title);
     setIsEditMode(false);
+    onChange(title);
   };
 
-  const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.currentTarget.value);
+  const changeTitle = (event: ChangeEvent<HTMLInputElement>) => {
+    setTitle(event.currentTarget.value);
   };
 
   return (
     <>
       {isEditMode ? (
-        <input autoFocus onBlur={turnOffEditMode} onChange={changeTitle} value={title} />
+        <TextField
+          variant={"standard"}
+          value={title}
+          size={"small"}
+          onChange={changeTitle}
+          onBlur={turnOffEditMode}
+          autoFocus
+        />
       ) : (
         <span onDoubleClick={turnOnEditMode}>{value}</span>
       )}
