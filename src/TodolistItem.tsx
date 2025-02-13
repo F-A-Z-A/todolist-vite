@@ -2,14 +2,14 @@ import type { ChangeEvent } from "react";
 import type { FilterValues, Task, Todolist } from "./App";
 import { CreateItemForm } from "./CreateItemForm";
 import { EditableSpan } from "./EditableSpan";
-import IconButton from "@mui/material/IconButton/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
-import Button from "@mui/material/Button/Button";
-import Checkbox from "@mui/material/Checkbox/Checkbox";
-import List from "@mui/material/List/List";
+import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
-import ListItem from "@mui/material/ListItem/ListItem";
-import { containerSx, getListItemSx } from "./TodolistItem.styles.ts";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import { containerSx, getListItemSx } from "./TodolistItem.styles";
 
 type Props = {
   todolist: Todolist;

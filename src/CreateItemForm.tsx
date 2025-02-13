@@ -1,5 +1,5 @@
-import TextField from "@mui/material/TextField/TextField";
 import { type ChangeEvent, type KeyboardEvent, useState } from "react";
+import TextField from "@mui/material/TextField";
 import AddBoxIcon from "@mui/icons-material/AddBox";
 import IconButton from "@mui/material/IconButton";
 
@@ -37,7 +37,6 @@ export const CreateItemForm = ({ onCreateItem }: Props) => {
       <TextField
         label={"Enter a title"}
         variant={"outlined"}
-        className={error ? "error" : ""}
         value={title}
         size={"small"}
         error={!!error}
