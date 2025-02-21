@@ -1,7 +1,7 @@
 import type { ChangeEvent } from "react";
-import type { FilterValues, Task, Todolist } from "./App";
-import { CreateItemForm } from "./CreateItemForm";
-import { EditableSpan } from "./EditableSpan";
+import type { FilterValues, Task, Todolist } from "../../app/App.tsx";
+import { CreateItemForm } from "../../common/createItemForm/CreateItemForm.tsx";
+import { EditableSpan } from "../../common/editableSpan/EditableSpan.tsx";
 import Checkbox from "@mui/material/Checkbox";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -9,7 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import { containerSx, getListItemSx } from "./TodolistItem.styles";
+import { containerSx, getListItemSx } from "./TodolistItem.styles.ts";
 
 type Props = {
   todolist: Todolist;
