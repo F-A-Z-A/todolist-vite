@@ -20,7 +20,7 @@ export const todolistsReducer = createReducer(initialState, (builder) => {
       }
     })
     .addCase(createTodolistAC, (state, action) => {
-      state.unshift({ ...action.payload, filter: "all" });
+      state.push({ ...action.payload, filter: "all" });
     })
     .addCase(changeTodolistTitleAC, (state, action) => {
       const index = state.findIndex((todolist) => todolist.id === action.payload.id);
@@ -36,7 +36,6 @@ export const todolistsReducer = createReducer(initialState, (builder) => {
     });
 });
 
-// types
 export type Todolist = {
   id: string;
   title: string;

@@ -12,4 +12,4 @@ export const appReducer = createReducer(initialState, (builder) => {
   });
 });
 
-export type ThemeMode = "light" | "dark";
+export type ThemeMode = "dark" | "light";

@@ -1,5 +1,5 @@
 import { createAction, createReducer, nanoid } from "@reduxjs/toolkit";
-import { createTodolistAC, deleteTodolistAC } from "./todolists-reducer.ts";
+import { createTodolistAC, deleteTodolistAC } from "./todolists-reducer";
 
 export const deleteTaskAC = createAction<{ todolistId: string; taskId: string }>("tasks/deleteTask");
 export const createTaskAC = createAction<{ todolistId: string; title: string }>("tasks/createTask");
@@ -45,7 +45,6 @@ export const tasksReducer = createReducer(initialState, (builder) => {
     });
 });
 
-// types
 export type Task = {
   id: string;
   title: string;
