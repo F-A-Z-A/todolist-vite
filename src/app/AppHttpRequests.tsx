@@ -72,6 +72,7 @@ export const AppHttpRequests = () => {
       startDate: task.startDate,
       ...updateParams,
     }
+
     tasksApi.changeTask({ todolistId: task.todoListId, taskId: task.id, model }).then((res) => {
       setTasks({
         ...tasks,
