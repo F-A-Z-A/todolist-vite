@@ -23,7 +23,7 @@ importers:
         specifier: 2.5.0
         version: 2.5.0(react-redux@9.2.0(@types/react@19.0.7)(react@19.0.0)(redux@5.0.1))(react@19.0.0)
       axios:
-        specifier: ^1.7.9
+        specifier: 1.7.9
         version: 1.7.9
       react:
         specifier: 19.0.0

@@ -1,21 +1,21 @@
-import { useAppDispatch } from "@/common/hooks/useAppDispatch";
-import { containerSx } from "@/common/styles/container.styles";
-import { changeTodolistFilterAC, type FilterValues, type Todolist } from "@/features/todolists/model/todolists-reducer";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
+import { useAppDispatch } from "@/common/hooks"
+import { containerSx } from "@/common/styles"
+import { changeTodolistFilterAC, type FilterValues, type Todolist } from "@/features/todolists/model/todolists-reducer"
+import Box from "@mui/material/Box"
+import Button from "@mui/material/Button"
 
 type Props = {
-  todolist: Todolist;
-};
+  todolist: Todolist
+}
 
 export const FilterButtons = ({ todolist }: Props) => {
-  const { id, filter } = todolist;
+  const { id, filter } = todolist
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const changeFilter = (filter: FilterValues) => {
-    dispatch(changeTodolistFilterAC({ id, filter }));
-  };
+    dispatch(changeTodolistFilterAC({ id, filter }))
+  }
 
   return (
     <Box sx={containerSx}>
@@ -37,5 +37,5 @@ export const FilterButtons = ({ todolist }: Props) => {
         Completed
       </Button>
     </Box>
-  );
-};
+  )
+}
