@@ -1,3 +1,4 @@
+export { ErrorSnackbar } from "@/common/components/ErrorSnackbar/ErrorSnackbar.tsx"
 export { CreateItemForm } from "./CreateItemForm/CreateItemForm"
 export { EditableSpan } from "./EditableSpan/EditableSpan"
 export { Header } from "./Header/Header"

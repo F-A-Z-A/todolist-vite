@@ -9,7 +9,7 @@ import Container from "@mui/material/Container"
 import IconButton from "@mui/material/IconButton"
 import Switch from "@mui/material/Switch"
 import Toolbar from "@mui/material/Toolbar"
-import LinearProgress from "@mui/material/LinearProgress/LinearProgress"
+import LinearProgress from "@mui/material/LinearProgress"
 
 export const Header = () => {
   const themeMode = useAppSelector(selectThemeMode)
