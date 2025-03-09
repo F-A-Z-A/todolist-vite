@@ -1,5 +1,6 @@
-export { ErrorSnackbar } from "@/common/components/ErrorSnackbar/ErrorSnackbar.tsx"
+export { PageNotFound } from "@/common/components/PageNotFound/PageNotFound.tsx"
 export { CreateItemForm } from "./CreateItemForm/CreateItemForm"
 export { EditableSpan } from "./EditableSpan/EditableSpan"
+export { ErrorSnackbar } from "./ErrorSnackbar/ErrorSnackbar"
 export { Header } from "./Header/Header"
 export { NavButton } from "./NavButton/NavButton"

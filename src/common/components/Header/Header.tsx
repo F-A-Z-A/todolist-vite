@@ -31,7 +31,7 @@ export const Header = () => {
             <MenuIcon />
           </IconButton>
           <div>
-            <NavButton>Sign in</NavButton>
+            <NavButton href={"/login"}>Sign in</NavButton>
             <NavButton>Sign up</NavButton>
             <NavButton background={theme.palette.primary.dark}>Faq</NavButton>
             <Switch color={"default"} onChange={changeMode} />

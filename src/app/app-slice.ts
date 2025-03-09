@@ -6,7 +6,7 @@ export const appSlice = createSlice({
   initialState: {
     themeMode: "light" as ThemeMode,
     status: "idle" as RequestStatus,
-    error: null as ErrorStatus,
+    error: null as string | null,
   },
   selectors: {
     selectThemeMode: (state) => state.themeMode,
@@ -20,7 +20,7 @@ export const appSlice = createSlice({
     setAppStatusAC: create.reducer<{ status: RequestStatus }>((state, action) => {
       state.status = action.payload.status
     }),
-    setAppErrorAC: create.reducer<{ error: ErrorStatus }>((state, action) => {
+    setAppErrorAC: create.reducer<{ error: string | null }>((state, action) => {
       state.error = action.payload.error
     }),
   }),
@@ -30,7 +30,4 @@ export const { selectThemeMode, selectAppStatus, selectAppError } = appSlice.sel
 export const { changeThemeModeAC, setAppStatusAC, setAppErrorAC } = appSlice.actions
 export const appReducer = appSlice.reducer
 
-// types
 export type ThemeMode = "dark" | "light"
-
-export type ErrorStatus = string | null

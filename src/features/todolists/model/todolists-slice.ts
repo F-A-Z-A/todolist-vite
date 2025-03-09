@@ -1,9 +1,9 @@
 import { setAppStatusAC } from "@/app/app-slice"
+import { ResultCode } from "@/common/enums"
+import type { RequestStatus } from "@/common/types"
 import { createAppSlice, handleServerAppError, handleServerNetworkError } from "@/common/utils"
 import { todolistsApi } from "@/features/todolists/api/todolistsApi"
-import type { Todolist } from "@/features/todolists/api/todolistsApi.types"
-import type { RequestStatus } from "@/common/types"
-import { ResultCode } from "@/common/enums"
+import { type Todolist, TodolistSchema } from "@/features/todolists/api/todolistsApi.types"
 
 export const todolistsSlice = createAppSlice({
   name: "todolists",
@@ -17,9 +17,11 @@ export const todolistsSlice = createAppSlice({
         try {
           dispatch(setAppStatusAC({ status: "loading" }))
           const res = await todolistsApi.getTodolists()
+          const todolists = TodolistSchema.array().parse(res.data)
           dispatch(setAppStatusAC({ status: "succeeded" }))
-          return { todolists: res.data }
+          return { todolists }
         } catch (error: any) {
+          console.log(error)
           handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
@@ -65,10 +67,12 @@ export const todolistsSlice = createAppSlice({
             dispatch(setAppStatusAC({ status: "succeeded" }))
             return { id }
           } else {
+            dispatch(changeTodolistStatusAC({ id, entityStatus: "failed" }))
             handleServerAppError(res.data, dispatch)
             return rejectWithValue(null)
           }
         } catch (error: any) {
+          dispatch(changeTodolistStatusAC({ id, entityStatus: "failed" }))
           handleServerNetworkError(error, dispatch)
           return rejectWithValue(null)
         }
@@ -76,7 +80,9 @@ export const todolistsSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           const index = state.findIndex((todolist) => todolist.id === action.payload.id)
-          if (index !== -1) state.splice(index, 1)
+          if (index !== -1) {
+            state.splice(index, 1)
+          }
         },
       },
     ),
@@ -100,17 +106,23 @@ export const todolistsSlice = createAppSlice({
       {
         fulfilled: (state, action) => {
           const index = state.findIndex((todolist) => todolist.id === action.payload.id)
-          if (index !== -1) state[index].title = action.payload.title
+          if (index !== -1) {
+            state[index].title = action.payload.title
+          }
         },
       },
     ),
     changeTodolistFilterAC: create.reducer<{ id: string; filter: FilterValues }>((state, action) => {
       const todolist = state.find((todolist) => todolist.id === action.payload.id)
-      if (todolist) todolist.filter = action.payload.filter
+      if (todolist) {
+        todolist.filter = action.payload.filter
+      }
     }),
     changeTodolistStatusAC: create.reducer<{ id: string; entityStatus: RequestStatus }>((state, action) => {
       const todolist = state.find((todolist) => todolist.id === action.payload.id)
-      if (todolist) todolist.entityStatus = action.payload.entityStatus
+      if (todolist) {
+        todolist.entityStatus = action.payload.entityStatus
+      }
     }),
   }),
 })
